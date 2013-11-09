@@ -1,0 +1,17 @@
+Open source, standalone clone of http://www.bbc.co.uk/cbeebies/me-too/games/me-too-buildacity/
+
+initialize menu buttons
+	- each have
+		- a button image
+		- set of images, random is placed on play area
+		- each have reference to function "place random image from set on play area"
+
+while true
+	handle events (user clicked or closed program)
+		click:
+			loop over menu buttons
+				if one was pressed
+					modify cursor image
+					set function run on clicking on play area
+			handle click on play area (run remembered function)
+	redraw screen

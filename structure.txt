@@ -1,4 +1,4 @@
-Open source, standalone clone of http://www.bbc.co.uk/cbeebies/me-too/games/me-too-buildacity/
+Open source, standalone clone of http://www.bbc.co.uk/cbeebies/me-too/games/me-too-buildacity/ and SimCity
 
 initialize menu buttons
 	- each have

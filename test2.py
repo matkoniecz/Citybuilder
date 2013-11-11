@@ -20,7 +20,9 @@ class Button:
 				return True
 		return False
 
-menu = Button(position=(0,0), size=(100,100))
+menu = []
+for i in range(0, 7):
+	menu.append(Button(position=(0,100*i), size=(100,100)))
 
 
 cursor = Button(position=(0,0), size=(100,100))
@@ -35,13 +37,15 @@ while 1:
 		if event.type == pygame.MOUSEBUTTONDOWN:
 			# Set the x, y positions of the mouse click
 			x, y = event.pos
-			if menu.is_pressed(x, y):
-				touch = not touch
+			for thing in menu:
+				if thing.is_pressed(x, y):
+					touch = not touch
 	if touch:
 		cursorrect = cursorrect.move(pygame.mouse.get_rel())
 	else:
 		pygame.mouse.get_rel()
 	screen.fill(black)
-	screen.blit(menu.surface, pygame.Rect(menu.position, menu.size))
+	for thing in menu:
+		screen.blit(thing.surface, pygame.Rect(thing.position, thing.size))
 	screen.blit(cursor.surface, cursorrect)
 	pygame.display.flip()

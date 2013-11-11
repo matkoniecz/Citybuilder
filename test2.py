@@ -4,8 +4,13 @@ pygame.init()
 
 size = screen_width, screen_height = 700, 700
 screen = pygame.display.set_mode(size)
+
 black = 0, 0, 0
 red = 255, 0, 0
+
+play_area_size = 100 #in tiles
+play_area_tile_size = 100 #in pixels
+play_area = [([red] * play_area_size)] * play_area_size
 
 class Button:
 	def __init__(self, position, size):
@@ -51,5 +56,17 @@ while 1:
 	dummy = (1, 1)
 	for thing in menu:
 		screen.blit(pygame.transform.scale(thing.surface, thing.size), pygame.Rect(thing.position, dummy))
+	x_min = 0
+	y_min = 0
+	x_max = (screen_width-button_width)/play_area_tile_size
+	y_max = screen_height/play_area_tile_size
+	for x in range(x_min, x_max):
+		for y in range(y_min, y_max):
+			size = (play_area_tile_size, play_area_tile_size)
+			position = (play_area_tile_size*(x-x_min), play_area_tile_size*(y-y_min))
+			surface = pygame.Surface(size)
+			color = play_area[x][y]
+			surface.fill(color)
+			screen.blit(surface, pygame.Rect(position, dummy))
 	screen.blit(pygame.transform.scale(cursor.surface, cursor.size), pygame.Rect(cursor.position, dummy))
 	pygame.display.flip()

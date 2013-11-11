@@ -2,7 +2,7 @@ from numpy  import *
 import sys, pygame, time
 pygame.init()
 
-size = screen_width, screen_height = 700, 700
+size = screen_width, screen_height = 600, 600
 screen = pygame.display.set_mode(size)
 
 black = 0, 0, 0

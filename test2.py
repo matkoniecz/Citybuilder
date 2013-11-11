@@ -2,7 +2,7 @@ from numpy  import *
 import sys, pygame, time
 pygame.init()
 
-size = width, height = 700, 700
+size = screen_width, screen_height = 700, 700
 screen = pygame.display.set_mode(size)
 black = 0, 0, 0
 red = 255, 0, 0
@@ -20,14 +20,16 @@ class Button:
 				return True
 		return False
 
+button_width = 100
+button_height = 100
 menu = []
-for i in range(0, 7):
-	menu.append(Button(position=(0,100*i), size=(100,100)))
+for i in range(0, screen_height/button_height):
+	menu.append(Button(position=(screen_width-button_width, button_height*i), size=(button_width, button_height)))
 
 
-cursor = Button(position=(0,0), size=(100,100))
+cursor_size = 25
+cursor = Button(position=(screen_width-button_width+(button_width-cursor_size)/2, (button_width-cursor_size)/2), size=(cursor_size, cursor_size))
 cursor.surface = pygame.image.load("rectangle.bmp")
-cursorrect = cursor.surface.get_rect()
 
 #print pygame.mouse.get_rel()
 touch = False
@@ -41,11 +43,13 @@ while 1:
 				if thing.is_pressed(x, y):
 					touch = not touch
 	if touch:
-		cursorrect = cursorrect.move(pygame.mouse.get_rel())
+		x, y = pygame.mouse.get_rel()
+		cursor.position = (cursor.position[0]+x, cursor.position[1]+y)
 	else:
 		pygame.mouse.get_rel()
 	screen.fill(black)
+	dummy = (1, 1)
 	for thing in menu:
-		screen.blit(thing.surface, pygame.Rect(thing.position, thing.size))
-	screen.blit(cursor.surface, cursorrect)
+		screen.blit(pygame.transform.scale(thing.surface, thing.size), pygame.Rect(thing.position, dummy))
+	screen.blit(pygame.transform.scale(cursor.surface, cursor.size), pygame.Rect(cursor.position, dummy))
 	pygame.display.flip()

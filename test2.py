@@ -18,6 +18,10 @@ class PlayArea:
 	def press(self, x, y):
 		x/=self.tile_size
 		y/=self.tile_size
+		if x >= self.tiles:
+			return
+		if y >= self.tiles:
+			return
 		global cursor_data
 		self.play_area[x][y] = cursor_data
 	def add_to_screen(self, screen):
@@ -25,6 +29,10 @@ class PlayArea:
 		y_min = self.area_anchor[1]/self.tile_size
 		x_max = self.usable_area[0]/self.tile_size - x_min
 		y_max = self.usable_area[1]/self.tile_size - y_min
+		if x_max > self.tiles:
+			x_max = self.tiles
+		if y_max > self.tiles:
+			y_max = self.tiles
 		dummy = (1, 1)
 		for x in range(x_min, x_max):
 			for y in range(y_min, y_max):
@@ -103,7 +111,7 @@ def init():
 	button_height = 100
 	play_area_tile_size = 100
 	cursor_size = 25
-	play_area_size = 100
+	play_area_size = 1
 	blob = Game(screen_width, screen_height, button_width, button_height, play_area_tile_size, cursor_size, play_area_size)
 
 def main_loop():

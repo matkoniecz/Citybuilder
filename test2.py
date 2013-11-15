@@ -1,4 +1,5 @@
 from numpy  import *
+from copy import copy
 import sys, pygame, time
 pygame.init()
 
@@ -12,7 +13,7 @@ class Cursor:
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
-		board.play_area[x][y] = self.data
+		board.play_area[x][y] = self.data[random.randint(0,len(self.data))]
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
@@ -64,13 +65,24 @@ class Button:
 		self.size = size
 		self.position = position
 		self.surface = pygame.Surface(self.size)
-		self.color = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
-		self.surface.fill(self.color)
+		self.color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
+		self.results = []
+		for i in range(0, 20):
+			self.results.append(copy(self.color))
+		for color in self.results:
+			color[0]+=random.randint(-20, 20)
+			color[1]+=random.randint(-20, 20)
+			color[2]+=random.randint(-20, 20)
+		for color in self.results:
+			print color
+		c = self.color[0], self.color[1], self.color[2]
+		print c
+		self.surface.fill(c)
 	def press(self, x, y, cursor):
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):
 			if (self.position[1]) <= y <= (self.position[1] + self.size[1]):
 				#touch = not touch
-				cursor.data = self.color
+				cursor.data = self.results
 		return cursor
 
 class Menu:

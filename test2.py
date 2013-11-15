@@ -75,8 +75,6 @@ class Button:
 			color[0]+=random.randint(-20, 20)
 			color[1]+=random.randint(-20, 20)
 			color[2]+=random.randint(-20, 20)
-		for color in self.results:
-			print color
 		c = self.color[0], self.color[1], self.color[2]
 		print c
 		self.surface.fill(c)

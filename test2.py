@@ -75,6 +75,11 @@ class Game:
 		self.cursor = Button(position=(screen_width-button_width+(button_width-cursor_size)/2, (button_width-cursor_size)/2), size=(cursor_size, cursor_size))
 		self.cursor.surface = pygame.image.load("rectangle.bmp")
 		#self.touch = False
+	def press(self, event):
+		# Set the x, y positions of the mouse click
+		x, y = event.pos
+		self.menu.press(x, y)
+		self.board.press(x, y)
 	
 	def update_screen(self):
 		#if touch:
@@ -107,10 +112,7 @@ def main_loop():
 		for event in pygame.event.get():
 			if event.type == pygame.QUIT: sys.exit()
 			if event.type == pygame.MOUSEBUTTONDOWN:
-				# Set the x, y positions of the mouse click
-				x, y = event.pos
-				blob.menu.press(x, y)
-				blob.board.press(x, y)
+				blob.press(event)
 		blob.update_screen()
 
 init()

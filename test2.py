@@ -66,11 +66,12 @@ class Button:
 		self.surface = pygame.Surface(self.size)
 		self.color = random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)
 		self.surface.fill(self.color)
-	def is_pressed(self, x, y):
+	def press(self, x, y, cursor):
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):
 			if (self.position[1]) <= y <= (self.position[1] + self.size[1]):
-				return True
-		return False
+				#touch = not touch
+				cursor.data = self.color
+		return cursor
 
 class Menu:
 	def __init__(self, button_width, button_height, count, location_x_start, location_y_start):
@@ -79,9 +80,7 @@ class Menu:
 			self.menu.append(Button(position=(location_x_start, location_y_start+button_height*i), size=(button_width, button_height)))
 	def press(self, x, y, cursor):
 		for thing in self.menu:
-			if thing.is_pressed(x, y):
-				#touch = not touch
-				cursor.data = thing.color
+			cursor = thing.press(x, y, cursor)
 	def add_to_screen(self, screen):
 		dummy = (1, 1)
 		for thing in self.menu:

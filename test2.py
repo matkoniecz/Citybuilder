@@ -135,9 +135,9 @@ def init():
 	screen_width, screen_height = 600, 600
 	button_width = 100
 	button_height = 100
-	play_area_tile_size = 100
+	play_area_tile_size = 5
 	cursor_size = 25
-	play_area_size = 1
+	play_area_size = 100
 	blob = Game(screen_width, screen_height, button_width, button_height, play_area_tile_size, cursor_size, play_area_size)
 
 def main_loop():

@@ -72,9 +72,9 @@ class Button:
 		for i in range(0, 20):
 			self.results.append(copy(self.color))
 		for color in self.results:
-			color[0]+=random.randint(-20, 20)
-			color[1]+=random.randint(-20, 20)
-			color[2]+=random.randint(-20, 20)
+			color[0]=clip(color[0]+random.randint(-20, 20), 0, 255)
+			color[1]=clip(color[1]+random.randint(-20, 20), 0, 255)
+			color[2]=clip(color[2]+random.randint(-20, 20), 0, 255)
 		c = self.color[0], self.color[1], self.color[2]
 		print c
 		self.surface.fill(c)

@@ -6,15 +6,20 @@ pygame.init()
 black = 0, 0, 0
 red = 255, 0, 0
 
-class Cursor:
-	def __init__(self):
-		self.data = black
-	def press(self, x, y, board):
+def makepainter(results):
+   def painter(x, y, board):
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
 		if board.is_valid_tile(x, y):
-			board.play_area[x][y] = self.data[random.randint(0,len(self.data))]
+			board.play_area[x][y] = results[random.randint(0,len(results))]
+   return painter
+   
+class Cursor:
+	def __init__(self):
+		self.data = makepainter([black])
+	def press(self, x, y, board):
+		self.data(x, y, board)
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
@@ -82,7 +87,7 @@ class Button:
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):
 			if (self.position[1]) <= y <= (self.position[1] + self.size[1]):
 				#touch = not touch
-				cursor.data = self.results
+				cursor.data = makepainter(self.results)
 		return cursor
 
 class Menu:

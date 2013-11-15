@@ -11,8 +11,15 @@ def makepainter(results):
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
-		if board.is_valid_tile(x, y):
-			board.play_area[x][y] = results[random.randint(0,len(results))]
+		x_size = 20
+		y_size = 20
+		for i in range(x, x+x_size):
+			for j in range(y, y+y_size):
+				if not board.is_valid_tile(i, j):
+					return
+		for i in range(x, x+x_size):
+			for j in range(y, y+y_size):
+				board.play_area[i][j] = results[random.randint(0,len(results))]
    return painter
    
 class Cursor:

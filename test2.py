@@ -13,7 +13,8 @@ class Cursor:
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
-		board.play_area[x][y] = self.data[random.randint(0,len(self.data))]
+		if board.is_valid_tile(x, y):
+			board.play_area[x][y] = self.data[random.randint(0,len(self.data))]
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
@@ -25,6 +26,7 @@ class PlayArea:
 		for i in range(0, play_area_size):
 			self.play_area.append([red] * self.tiles)
 	def convert_position_on_screen_to_position_on_board(self, x, y):
+		#may return invalid tile! Check with is_valid_tile
 		x-=self.area_anchor[0]
 		y-=self.area_anchor[1]
 		x/=self.tile_size
@@ -137,7 +139,7 @@ def init():
 	button_height = 100
 	play_area_tile_size = 100
 	cursor_size = 25
-	play_area_size = 100
+	play_area_size = 1
 	blob = Game(screen_width, screen_height, button_width, button_height, play_area_tile_size, cursor_size, play_area_size)
 
 def main_loop():

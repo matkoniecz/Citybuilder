@@ -9,13 +9,8 @@ class Cursor:
 	def __init__(self):
 		self.data = black
 	def press(self, x, y, board):
-		x/=board.tile_size
-		y/=board.tile_size
-		if x >= board.tiles:
-			return
-		if y >= board.tiles:
-			return
-		board.play_area[x][y] = self.data
+		position = board.convert_position_on_screen_to_position_on_board(x, y)
+		board.play_area[position[0]][position[1]] = self.data
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
@@ -26,6 +21,22 @@ class PlayArea:
 		self.area_anchor = area_anchor
 		for i in range(0, play_area_size):
 			self.play_area.append([red] * self.tiles)
+	def convert_position_on_screen_to_position_on_board(self, x, y):
+		x-=self.area_anchor[0]
+		y-=self.area_anchor[1]
+		x/=self.tile_size
+		y/=self.tile_size
+		return x, y
+	def is_valid_tile(self, x, y):
+		if x >= self.tiles:
+			return False
+		if y >= self.tiles:
+			return False
+		if x < 0 or y < 0:
+			return False
+		return True
+	def is_free_tile(x, y):
+		return self.is_valid_tile(x, y)
 	def add_to_screen(self, screen):
 		x_min = self.area_anchor[0]/self.tile_size
 		y_min = self.area_anchor[1]/self.tile_size

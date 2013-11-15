@@ -10,7 +10,9 @@ class Cursor:
 		self.data = black
 	def press(self, x, y, board):
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
-		board.play_area[position[0]][position[1]] = self.data
+		x = position[0]
+		y = position[1]
+		board.play_area[x][y] = self.data
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):

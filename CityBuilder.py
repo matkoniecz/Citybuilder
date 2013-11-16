@@ -88,7 +88,6 @@ class Button:
 			color[1]=clip(color[1]+random.randint(-20, 20), 0, 255)
 			color[2]=clip(color[2]+random.randint(-20, 20), 0, 255)
 		c = self.color[0], self.color[1], self.color[2]
-		print c
 		self.surface.fill(c)
 	def press(self, x, y, cursor):
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):

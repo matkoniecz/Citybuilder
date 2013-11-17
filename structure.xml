@@ -1,0 +1,15 @@
+<root>
+	<buildings>
+		<residential image="house.png">
+			<sprite size="1"/>
+		</residential>
+		<industrial image="rectangle.bmp">
+			<sprite size="2"/>
+		</industrial>
+		<commercial image="rectangle.bmp">
+			<sprite size="3"/>
+			<sprite size="4"/>
+			<sprite size="5"/>
+		</commercial>
+	</buildings>	
+</root>

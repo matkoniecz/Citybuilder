@@ -3,18 +3,20 @@ from copy import copy
 import sys, pygame, time
 import os.path
 import ConfigParser
+from lxml import etree
 pygame.init()
 
 black = 0, 0, 0
 red = 255, 0, 0
 
-def makepainter(results):
+def makepainter(results, size):
    def painter(x, y, board):
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
-		x_size = 20
-		y_size = 20
+		covered = size[random.randint(0,len(size))]
+		x_size = covered
+		y_size = covered
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
 				if not board.is_valid_tile(i, j):
@@ -26,7 +28,7 @@ def makepainter(results):
    
 class Cursor:
 	def __init__(self):
-		self.data = makepainter([black])
+		self.data = makepainter([black], [10])
 	def press(self, x, y, board):
 		self.data(x, y, board)
 
@@ -77,39 +79,41 @@ class PlayArea:
 		return screen
 
 class Button:
-	def __init__(self, position, size):
+	def __init__(self, function, image, position, size):
 		self.size = size
 		self.position = position
-		self.surface = pygame.Surface(self.size)
-		self.color = [random.randint(0, 255), random.randint(0, 255), random.randint(0, 255)]
-		self.results = []
-		for i in range(0, 20):
-			self.results.append(copy(self.color))
-		for color in self.results:
-			color[0]=clip(color[0]+random.randint(-20, 20), 0, 255)
-			color[1]=clip(color[1]+random.randint(-20, 20), 0, 255)
-			color[2]=clip(color[2]+random.randint(-20, 20), 0, 255)
-		c = self.color[0], self.color[1], self.color[2]
-		self.surface.fill(c)
+		self.function = function
+		self.image = image
+		self.surface = pygame.image.load(image)
 	def press(self, x, y, cursor):
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):
 			if (self.position[1]) <= y <= (self.position[1] + self.size[1]):
-				#touch = not touch
-				cursor.data = makepainter(self.results)
+				cursor.data = self.function
 		return cursor
-
+	def add_to_screen(self, screen):
+		dummy = (1, 1)
+		screen.blit(pygame.transform.scale(self.surface, self.size), pygame.Rect(self.position, dummy))
+		return screen
 class Menu:
-	def __init__(self, button_width, button_height, count, location_x_start, location_y_start):
+	def __init__(self, button_width, button_height, max_count, location_x_start, location_y_start):
 		self.menu = []
-		for i in range(0, count):
-			self.menu.append(Button(position=(location_x_start, location_y_start+button_height*i), size=(button_width, button_height)))
+		count = 0
+		data = etree.parse('structure.xml')
+		for elt in data.getiterator("buildings"):
+			for e in elt:
+				if count > max_count:
+					break
+				size = []
+				for sprite in e:
+					size.append(int(sprite.attrib['size']))
+				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+				count+=1
 	def press(self, x, y, cursor):
 		for thing in self.menu:
 			cursor = thing.press(x, y, cursor)
 	def add_to_screen(self, screen):
-		dummy = (1, 1)
 		for thing in self.menu:
-			screen.blit(pygame.transform.scale(thing.surface, thing.size), pygame.Rect(thing.position, dummy))
+			screen = thing.add_to_screen(screen)
 		return screen
 
 class Game:
@@ -133,11 +137,8 @@ class Game:
 		self.cursor_size = settings['cursor_size']
 		self.screen = pygame.display.set_mode(size)
 		self.board = PlayArea(settings['play_area_size'], settings['play_area_tile_size'], (settings['screen_width']-self.button_width, self.screen_height), (0, 0))
-		self.menu = Menu(settings['button_width'], self.button_height, count=settings['screen_height']/self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
-		self.image = Button(position=(settings['screen_width']-self.button_width+(self.button_width-self.cursor_size)/2, (self.button_width-self.cursor_size)/2), size=(self.cursor_size, self.cursor_size))
-		self.image.surface = pygame.image.load("rectangle.bmp")
+		self.menu = Menu(settings['button_width'], self.button_height, max_count=settings['screen_height']/self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
 		self.cursor = Cursor()
-		#self.touch = False
 	def press(self, event):
 		# Set the x, y positions of the mouse click
 		x, y = event.pos
@@ -145,18 +146,10 @@ class Game:
 		self.cursor.press(x, y, self.board)
 	
 	def update_screen(self):
-		#if touch:
-		#	x, y = pygame.mouse.get_rel()
-		#	self.image.position = (self.image.position[0]+x, self.image.position[1]+y)
-		#else:
-		#	pygame.mouse.get_rel()
-		pygame.mouse.get_rel()
-		#
 		self.screen.fill(black)
 		dummy = (1, 1)
 		self.screen = self.menu.add_to_screen(self.screen)
 		self.screen = self.board.add_to_screen(self.screen)
-		self.screen.blit(pygame.transform.scale(self.image.surface, self.image.size), pygame.Rect(self.image.position, dummy))
 		pygame.display.flip()
 
 	def get_settings_filename(self):

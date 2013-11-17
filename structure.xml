@@ -3,13 +3,31 @@
 		<residential image="house.png">
 			<sprite size="1"/>
 		</residential>
-		<industrial image="rectangle.bmp">
+		<residential image="block_of_flats.png">
+			<sprite size="1"/>
+		</residential>
+		<industrial image="factory.png">
 			<sprite size="2"/>
 		</industrial>
-		<commercial image="rectangle.bmp">
+		<commercial image="commercial.png">
 			<sprite size="3"/>
 			<sprite size="4"/>
 			<sprite size="5"/>
 		</commercial>
-	</buildings>	
+		<commercial image="trees.png">
+			<sprite size="3"/>
+			<sprite size="4"/>
+			<sprite size="5"/>
+		</commercial>
+	</buildings>
+	<linear>
+		<road image="road.png">
+			<sprite size="1"/>
+		</road>
+	</linear>
+	<special>
+		<delete image="delete.png">
+			<sprite size="1"/>
+		</delete>
+	</special>
 </root>

@@ -108,6 +108,24 @@ class Menu:
 					size.append(int(sprite.attrib['size']))
 				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
 				count+=1
+		for elt in data.getiterator("linear"):
+			for e in elt:
+				if count > max_count:
+					break
+				size = []
+				for sprite in e:
+					size.append(int(sprite.attrib['size']))
+				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+				count+=1
+		for elt in data.getiterator("special"):
+			for e in elt:
+				if count > max_count:
+					break
+				size = []
+				for sprite in e:
+					size.append(int(sprite.attrib['size']))
+				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+				count+=1
 	def press(self, x, y, cursor):
 		for thing in self.menu:
 			cursor = thing.press(x, y, cursor)
@@ -117,13 +135,12 @@ class Menu:
 		return screen
 
 class Game:
-	def __init__(self): #, , play_area_tile_size, cursor_size, play_area_size
+	def __init__(self):
 		default_settings = [[{
-			'screen_width': 600,
-			'screen_height': 600,
-			'button_width': 100,
-			'button_height': 100,
-			'cursor_size': 25,
+			'screen_width': 900,
+			'screen_height': 710,
+			'button_width': 80,
+			'button_height': 80,
 			'play_area_tile_size': 100,
 			}, 'display'], [{
 			'play_area_size': 100,
@@ -134,7 +151,6 @@ class Game:
 		self.screen_height = settings['screen_height']
 		self.button_width = settings['button_width']
 		self.button_height = settings['button_height']
-		self.cursor_size = settings['cursor_size']
 		self.screen = pygame.display.set_mode(size)
 		self.board = PlayArea(settings['play_area_size'], settings['play_area_tile_size'], (settings['screen_width']-self.button_width, self.screen_height), (0, 0))
 		self.menu = Menu(settings['button_width'], self.button_height, max_count=settings['screen_height']/self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
@@ -185,7 +201,6 @@ class Game:
 		config.set('display', 'button_width', str(self.button_width))
 		config.set('display', 'button_height', str(self.button_height))
 		config.set('display', 'play_area_tile_size', str(self.board.tile_size))
-		config.set('display', 'cursor_size', str(self.cursor_size))
 		config.add_section('play_area')
 		config.set('play_area', 'play_area_size', str(self.board.tiles))
 		# Writing our configuration file

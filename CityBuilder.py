@@ -20,11 +20,12 @@ def makepainter(possibilities):
 		y_size = size
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
-				if not board.is_valid_tile(i, j):
+				if not board.is_free_tile(i, j):
 					return
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
-				board.play_area[i][j] = pygame.image.load(selected['image'])
+				board.play_area[i][j] = {'surface': None, 'size': 0, 'ground': False}
+		board.play_area[x][y] = {'surface': pygame.image.load(selected['image']), 'size': size, 'ground': False}
    return painter
    
 class Cursor:
@@ -42,7 +43,7 @@ class PlayArea:
 		self.usable_area = usable_area
 		self.area_anchor = area_anchor
 		for i in range(0, play_area_size):
-			self.play_area.append([pygame.image.load("ground.png")] * self.tiles)
+			self.play_area.append([{'surface': pygame.image.load("ground.png"), 'size': 1, 'ground': True}] * self.tiles)
 	def convert_position_on_screen_to_position_on_board(self, x, y):
 		#may return invalid tile! Check with is_valid_tile
 		x-=self.area_anchor[0]
@@ -58,8 +59,13 @@ class PlayArea:
 		if x < 0 or y < 0:
 			return False
 		return True
-	def is_free_tile(x, y):
-		return self.is_valid_tile(x, y)
+	def is_ground_tile(self, x, y):
+		return self.play_area[x][y]['ground']
+	def is_free_tile(self, x, y):
+		if not self.is_valid_tile(x, y):
+			return False
+		if self.is_ground_tile(x, y):
+			return True
 	def add_to_screen(self, screen):
 		x_min = self.area_anchor[0]/self.tile_size
 		y_min = self.area_anchor[1]/self.tile_size
@@ -72,9 +78,10 @@ class PlayArea:
 		dummy = (1, 1)
 		for x in range(x_min, x_max):
 			for y in range(y_min, y_max):
-				size = (self.tile_size, self.tile_size)
-				position = (self.tile_size*(x-x_min), self.tile_size*(y-y_min))
-				screen.blit(pygame.transform.scale(self.play_area[x][y], size), pygame.Rect(position, dummy))
+				if self.play_area[x][y]['surface'] != None:
+					size = (self.tile_size*self.play_area[x][y]['size'], self.tile_size*self.play_area[x][y]['size'])
+					position = (self.tile_size*(x-x_min), self.tile_size*(y-y_min))
+					screen.blit(pygame.transform.scale(self.play_area[x][y]['surface'], size), pygame.Rect(position, dummy))
 		return screen
 
 class Button:

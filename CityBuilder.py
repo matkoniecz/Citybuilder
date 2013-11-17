@@ -11,11 +11,11 @@ red = 255, 0, 0
 
 def makepainter(possibilities):
    def painter(x, y, board):
-		position = board.convert_position_on_screen_to_position_on_board(x, y)
-		x = position[0]
-		y = position[1]
 		selected = possibilities[random.randint(0,len(possibilities))]
 		size = selected['size']
+		position = board.convert_position_on_screen_to_position_on_board(x-board.tile_size*(size-1)/2, y-board.tile_size*(size-1)/2)
+		x = position[0]
+		y = position[1]
 		x_size = size
 		y_size = size
 		for i in range(x, x+x_size):

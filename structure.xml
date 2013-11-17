@@ -18,7 +18,7 @@
 	</buildings>
 	<linear>
 		<road image="road.png">
-			<sprite image="road.png" size="1"/>
+			<sprite image="road_tile.png" size="1"/>
 		</road>
 	</linear>
 	<special>

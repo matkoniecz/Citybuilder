@@ -95,14 +95,12 @@ class Button:
 		screen.blit(pygame.transform.scale(self.surface, self.size), pygame.Rect(self.position, dummy))
 		return screen
 class Menu:
-	def __init__(self, button_width, button_height, max_count, location_x_start, location_y_start):
+	def __init__(self, button_width, button_height, location_x_start, location_y_start):
 		self.menu = []
 		count = 0
 		data = etree.parse('structure.xml')
 		for elt in data.getiterator("buildings"):
 			for e in elt:
-				if count > max_count:
-					break
 				size = []
 				for sprite in e:
 					size.append(int(sprite.attrib['size']))
@@ -110,8 +108,6 @@ class Menu:
 				count+=1
 		for elt in data.getiterator("linear"):
 			for e in elt:
-				if count > max_count:
-					break
 				size = []
 				for sprite in e:
 					size.append(int(sprite.attrib['size']))
@@ -119,8 +115,6 @@ class Menu:
 				count+=1
 		for elt in data.getiterator("special"):
 			for e in elt:
-				if count > max_count:
-					break
 				size = []
 				for sprite in e:
 					size.append(int(sprite.attrib['size']))
@@ -153,7 +147,7 @@ class Game:
 		self.button_height = settings['button_height']
 		self.screen = pygame.display.set_mode(size)
 		self.board = PlayArea(settings['play_area_size'], settings['play_area_tile_size'], (settings['screen_width']-self.button_width, self.screen_height), (0, 0))
-		self.menu = Menu(settings['button_width'], self.button_height, max_count=settings['screen_height']/self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
+		self.menu = Menu(settings['button_width'], self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
 		self.cursor = Cursor()
 	def press(self, event):
 		# Set the x, y positions of the mouse click

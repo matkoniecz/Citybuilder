@@ -9,28 +9,30 @@ pygame.init()
 black = 0, 0, 0
 red = 255, 0, 0
 
-def makepainter(results, size):
+def makepainter(possibilities):
    def painter(x, y, board):
 		position = board.convert_position_on_screen_to_position_on_board(x, y)
 		x = position[0]
 		y = position[1]
-		covered = size[random.randint(0,len(size))]
-		x_size = covered
-		y_size = covered
+		selected = possibilities[random.randint(0,len(possibilities))]
+		size = selected['size']
+		x_size = size
+		y_size = size
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
 				if not board.is_valid_tile(i, j):
 					return
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
-				board.play_area[i][j] = results[random.randint(0,len(results))]
+				board.play_area[i][j] = pygame.image.load(selected['image'])
    return painter
    
 class Cursor:
 	def __init__(self):
-		self.data = makepainter([black], [10])
+		self.data = None
 	def press(self, x, y, board):
-		self.data(x, y, board)
+		if self.data != None:
+			self.data(x, y, board)
 
 class PlayArea:
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
@@ -40,7 +42,7 @@ class PlayArea:
 		self.usable_area = usable_area
 		self.area_anchor = area_anchor
 		for i in range(0, play_area_size):
-			self.play_area.append([red] * self.tiles)
+			self.play_area.append([pygame.image.load("ground.png")] * self.tiles)
 	def convert_position_on_screen_to_position_on_board(self, x, y):
 		#may return invalid tile! Check with is_valid_tile
 		x-=self.area_anchor[0]
@@ -72,10 +74,7 @@ class PlayArea:
 			for y in range(y_min, y_max):
 				size = (self.tile_size, self.tile_size)
 				position = (self.tile_size*(x-x_min), self.tile_size*(y-y_min))
-				surface = pygame.Surface(size)
-				color = self.play_area[x][y]
-				surface.fill(color)
-				screen.blit(surface, pygame.Rect(position, dummy))
+				screen.blit(pygame.transform.scale(self.play_area[x][y], size), pygame.Rect(position, dummy))
 		return screen
 
 class Button:
@@ -101,24 +100,24 @@ class Menu:
 		data = etree.parse('structure.xml')
 		for elt in data.getiterator("buildings"):
 			for e in elt:
-				size = []
+				possibilities = []
 				for sprite in e:
-					size.append(int(sprite.attrib['size']))
-				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+					possibilities.append({'image': sprite.attrib['image'], 'size': int(sprite.attrib['size'])})
+				self.menu.append(Button(function=makepainter(possibilities), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
 				count+=1
 		for elt in data.getiterator("linear"):
 			for e in elt:
-				size = []
+				possibilities = []
 				for sprite in e:
-					size.append(int(sprite.attrib['size']))
-				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+					possibilities.append({'image': sprite.attrib['image'], 'size': int(sprite.attrib['size'])})
+				self.menu.append(Button(function=makepainter(possibilities), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
 				count+=1
 		for elt in data.getiterator("special"):
 			for e in elt:
-				size = []
+				possibilities = []
 				for sprite in e:
-					size.append(int(sprite.attrib['size']))
-				self.menu.append(Button(function=makepainter([black], size), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+					possibilities.append({'image': sprite.attrib['image'], 'size': int(sprite.attrib['size'])})
+				self.menu.append(Button(function=makepainter(possibilities), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
 				count+=1
 	def press(self, x, y, cursor):
 		for thing in self.menu:
@@ -135,7 +134,7 @@ class Game:
 			'screen_height': 710,
 			'button_width': 80,
 			'button_height': 80,
-			'play_area_tile_size': 100,
+			'play_area_tile_size': 25,
 			}, 'display'], [{
 			'play_area_size': 100,
 			}, 'play_area']]

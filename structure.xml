@@ -1,33 +1,29 @@
 <root>
 	<buildings>
 		<residential image="house.png">
-			<sprite size="1"/>
+			<sprite image="house.png" size="3"/>
 		</residential>
 		<residential image="block_of_flats.png">
-			<sprite size="1"/>
+			<sprite image="block_of_flats.png" size="3"/>
 		</residential>
 		<industrial image="factory.png">
-			<sprite size="2"/>
+			<sprite image="factory.png" size="3"/>
 		</industrial>
 		<commercial image="commercial.png">
-			<sprite size="3"/>
-			<sprite size="4"/>
-			<sprite size="5"/>
+			<sprite image="commercial.png" size="3"/>
 		</commercial>
 		<commercial image="trees.png">
-			<sprite size="3"/>
-			<sprite size="4"/>
-			<sprite size="5"/>
+			<sprite image="trees.png" size="1"/>
 		</commercial>
 	</buildings>
 	<linear>
 		<road image="road.png">
-			<sprite size="1"/>
+			<sprite image="road.png" size="1"/>
 		</road>
 	</linear>
 	<special>
 		<delete image="delete.png">
-			<sprite size="1"/>
+			<sprite image="road.png" size="1"/>
 		</delete>
 	</special>
 </root>

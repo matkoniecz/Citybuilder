@@ -175,7 +175,7 @@ class Game:
 		loaded_settings = {}
 		unified_defaults = {}
 		for set in default_settings:
-			unified_defaults = dict(unified_defaults, **set[0])
+			unified_defaults.update(set[0])
 		config = ConfigParser.SafeConfigParser()
 		config.read(self.get_settings_filename())
 		for set in default_settings:

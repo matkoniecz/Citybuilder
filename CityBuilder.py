@@ -1,6 +1,8 @@
 from numpy  import *
 from copy import copy
 import sys, pygame, time
+import os.path
+import ConfigParser
 pygame.init()
 
 black = 0, 0, 0
@@ -111,12 +113,28 @@ class Menu:
 		return screen
 
 class Game:
-	def __init__(self, screen_width, screen_height, button_width, button_height, play_area_tile_size, cursor_size, play_area_size):
-		size = screen_width, screen_height
+	def __init__(self): #, , play_area_tile_size, cursor_size, play_area_size
+		default_settings = [[{
+			'screen_width': 600,
+			'screen_height': 600,
+			'button_width': 100,
+			'button_height': 100,
+			'cursor_size': 25,
+			'play_area_tile_size': 100,
+			}, 'display'], [{
+			'play_area_size': 100,
+			}, 'play_area']]
+		settings = self.load_settings_from_file(default_settings)
+		size = settings['screen_width'], settings['screen_height']
+		self.screen_width = settings['screen_width']
+		self.screen_height = settings['screen_height']
+		self.button_width = settings['button_width']
+		self.button_height = settings['button_height']
+		self.cursor_size = settings['cursor_size']
 		self.screen = pygame.display.set_mode(size)
-		self.board = PlayArea(play_area_size, play_area_tile_size, (screen_width-button_width, screen_height), (0, 0))
-		self.menu = Menu(button_width, button_height, count=screen_height/button_height, location_x_start=screen_width-button_width, location_y_start=0)
-		self.image = Button(position=(screen_width-button_width+(button_width-cursor_size)/2, (button_width-cursor_size)/2), size=(cursor_size, cursor_size))
+		self.board = PlayArea(settings['play_area_size'], settings['play_area_tile_size'], (settings['screen_width']-self.button_width, self.screen_height), (0, 0))
+		self.menu = Menu(settings['button_width'], self.button_height, count=settings['screen_height']/self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
+		self.image = Button(position=(settings['screen_width']-self.button_width+(self.button_width-self.cursor_size)/2, (self.button_width-self.cursor_size)/2), size=(self.cursor_size, self.cursor_size))
 		self.image.surface = pygame.image.load("rectangle.bmp")
 		self.cursor = Cursor()
 		#self.touch = False
@@ -141,15 +159,48 @@ class Game:
 		self.screen.blit(pygame.transform.scale(self.image.surface, self.image.size), pygame.Rect(self.image.position, dummy))
 		pygame.display.flip()
 
+	def get_settings_filename(self):
+		return "settings.cfg"
+
+	def load_settings_from_file(self, default_settings):
+		loaded_settings = {}
+		unified_defaults = dict(default_settings[0][0], **default_settings[1][0])
+		config = ConfigParser.SafeConfigParser()
+		config.read(self.get_settings_filename())
+		for set in default_settings:
+			section = set[1]
+			for name in set[0]:
+				try:
+					loaded_settings[name] = config.getint(section, name)
+				except ConfigParser.NoSectionError, ConfigParser.NoOptionError:
+					loaded_settings[name] = unified_defaults[name]
+		return loaded_settings
+	def save_settings_to_file(self):
+		config = ConfigParser.RawConfigParser()
+		# When adding sections or items, add them in the reverse order of
+		# how you want them to be displayed in the actual file.
+		# In addition, please note that using RawConfigParser's and the raw
+		# mode of ConfigParser's respective set functions, you can assign
+		# non-string values to keys internally, but will receive an error
+		# when attempting to write to a file or when you get it in non-raw
+		# mode. SafeConfigParser does not allow such assignments to take place.
+		config.add_section('display')
+		config.set('display', 'screen_width', str(self.screen_width))
+		config.set('display', 'screen_height', str(self.screen_height))
+		config.set('display', 'button_width', str(self.button_width))
+		config.set('display', 'button_height', str(self.button_height))
+		config.set('display', 'play_area_tile_size', str(self.board.tile_size))
+		config.set('display', 'cursor_size', str(self.cursor_size))
+		config.add_section('play_area')
+		config.set('play_area', 'play_area_size', str(self.board.tiles))
+		# Writing our configuration file
+		with open(self.get_settings_filename(), 'wb') as configfile:
+			config.write(configfile)	
+
 def init():
 	global blob
-	screen_width, screen_height = 600, 600
-	button_width = 100
-	button_height = 100
-	play_area_tile_size = 5
-	cursor_size = 25
-	play_area_size = 100
-	blob = Game(screen_width, screen_height, button_width, button_height, play_area_tile_size, cursor_size, play_area_size)
+	blob = Game()
+	blob.save_settings_to_file()
 
 def main_loop():
 	#print pygame.mouse.get_rel()

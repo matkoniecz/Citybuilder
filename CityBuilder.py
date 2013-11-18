@@ -242,6 +242,7 @@ def main_loop():
 			if event.type == pygame.MOUSEBUTTONDOWN:
 				blob.press(event)
 		blob.update_screen()
+		time.sleep(0.01)
 
 init()
 main_loop()

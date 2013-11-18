@@ -1,16 +1,67 @@
 <root>
 	<buildings>
 		<residential image="house.png">
-			<sprite image="house.png" size="3"/>
+			<sprite image="res_houses1.png" size="1"/>
+			<sprite image="res_houses2.png" size="1"/>
+			<sprite image="res_houses3.png" size="1"/>
+			<sprite image="res_houses4.png" size="1"/>
+			<sprite image="res_houses5.png" size="1"/>
+			<sprite image="res_houses6.png" size="1"/>
+			<sprite image="res_houses7.png" size="1"/>
+			<sprite image="res_houses8.png" size="1"/>
+			<sprite image="res_houses9.png" size="1"/>
+			<sprite image="res_houses10.png" size="1"/>
+			<sprite image="res_houses12.png" size="1"/>
 		</residential>
 		<residential image="block_of_flats.png">
-			<sprite image="block_of_flats.png" size="3"/>
+			<sprite image="res_zones2.png" size="3"/>
+			<sprite image="res_zones3.png" size="3"/>
+			<sprite image="res_zones4.png" size="3"/>
+			<sprite image="res_zones5.png" size="3"/>
+			<sprite image="res_zones6.png" size="3"/>
+			<sprite image="res_zones7.png" size="3"/>
+			<sprite image="res_zones8.png" size="3"/>
+			<sprite image="res_zones9.png" size="3"/>
+			<sprite image="res_zones10.png" size="3"/>
+			<sprite image="res_zones12.png" size="3"/>
+			<sprite image="res_zones13.png" size="3"/>
+			<sprite image="res_zones14.png" size="3"/>
+			<sprite image="res_zones15.png" size="3"/>
+			<sprite image="res_zones16.png" size="3"/>
+			<sprite image="res_zones17.png" size="3"/>
+			<sprite image="res_zones18.png" size="3"/>
+			<sprite image="res_zones19.png" size="3"/>
 		</residential>
 		<industrial image="factory.png">
-			<sprite image="factory.png" size="3"/>
+			<sprite image="ind_zones2.png" size="3"/>
+			<sprite image="ind_zones3.png" size="3"/>
+			<sprite image="ind_zones4.png" size="3"/>
+			<sprite image="ind_zones5.png" size="3"/>
+			<sprite image="ind_zones6.png" size="3"/>
+			<sprite image="ind_zones7.png" size="3"/>
+			<sprite image="ind_zones8.png" size="3"/>
+			<sprite image="ind_zones9.png" size="3"/>
 		</industrial>
 		<commercial image="commercial.png">
-			<sprite image="commercial.png" size="3"/>
+			<sprite image="com_zones2.png" size="3"/>
+			<sprite image="com_zones3.png" size="3"/>
+			<sprite image="com_zones4.png" size="3"/>
+			<sprite image="com_zones5.png" size="3"/>
+			<sprite image="com_zones6.png" size="3"/>
+			<sprite image="com_zones7.png" size="3"/>
+			<sprite image="com_zones8.png" size="3"/>
+			<sprite image="com_zones9.png" size="3"/>
+			<sprite image="com_zones10.png" size="3"/>
+			<sprite image="com_zones12.png" size="3"/>
+			<sprite image="com_zones13.png" size="3"/>
+			<sprite image="com_zones14.png" size="3"/>
+			<sprite image="com_zones15.png" size="3"/>
+			<sprite image="com_zones16.png" size="3"/>
+			<sprite image="com_zones17.png" size="3"/>
+			<sprite image="com_zones18.png" size="3"/>
+			<sprite image="com_zones19.png" size="3"/>
+			<sprite image="com_zones20.png" size="3"/>
+			<sprite image="com_zones21.png" size="3"/>
 		</commercial>
 		<commercial image="trees.png">
 			<sprite image="trees.png" size="1"/>

@@ -91,8 +91,8 @@ class PlayArea:
 	def add_to_screen(self, screen):
 		x_min = self.area_anchor[0]/self.tile_size
 		y_min = self.area_anchor[1]/self.tile_size
-		x_max = self.usable_area[0]/self.tile_size - x_min
-		y_max = self.usable_area[1]/self.tile_size - y_min
+		x_max = self.usable_area[0]/self.tile_size - x_min + 1
+		y_max = self.usable_area[1]/self.tile_size - y_min + 1
 		if x_max > self.tiles:
 			x_max = self.tiles
 		if y_max > self.tiles:
@@ -117,7 +117,8 @@ class Button:
 		if (self.position[0]) <= x <= (self.position[0] + self.size[0]):
 			if (self.position[1]) <= y <= (self.position[1] + self.size[1]):
 				cursor.data = self.function
-		return cursor
+				return cursor, True
+		return cursor, False
 	def add_to_screen(self, screen):
 		dummy = (1, 1)
 		screen.blit(pygame.transform.scale(self.surface, self.size), pygame.Rect(self.position, dummy))
@@ -150,7 +151,10 @@ class Menu:
 					raise "Unhandled special button"
 	def press(self, x, y, cursor):
 		for thing in self.menu:
-			cursor = thing.press(x, y, cursor)
+			cursor, pressed = thing.press(x, y, cursor)
+			if pressed:
+				return cursor, True
+		return cursor, False
 	def add_to_screen(self, screen):
 		for thing in self.menu:
 			screen = thing.add_to_screen(screen)
@@ -174,20 +178,22 @@ class Game:
 		self.button_width = settings['button_width']
 		self.button_height = settings['button_height']
 		self.screen = pygame.display.set_mode(size)
-		self.board = PlayArea(settings['play_area_size'], settings['play_area_tile_size'], (settings['screen_width']-self.button_width, self.screen_height), (0, 0))
+		self.board = PlayArea(play_area_size = settings['play_area_size'], play_area_tile_size = settings['play_area_tile_size'], usable_area = (settings['screen_width'], self.screen_height), area_anchor = (0, 0))
 		self.menu = Menu(settings['button_width'], self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
 		self.cursor = Cursor()
 	def press(self, event):
 		# Set the x, y positions of the mouse click
 		x, y = event.pos
-		self.menu.press(x, y, self.cursor)
+		cursor, pressed = self.menu.press(x, y, self.cursor)
+		if pressed:
+			return
 		self.cursor.press(x, y, self.board)
 	
 	def update_screen(self):
 		self.screen.fill(black)
 		dummy = (1, 1)
-		self.screen = self.menu.add_to_screen(self.screen)
 		self.screen = self.board.add_to_screen(self.screen)
+		self.screen = self.menu.add_to_screen(self.screen)
 		pygame.display.flip()
 
 	def get_settings_filename(self):

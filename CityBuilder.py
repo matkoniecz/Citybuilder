@@ -10,7 +10,8 @@ black = 0, 0, 0
 red = 255, 0, 0
 
 def makepainter(possibilities):
-   def painter(x, y, board):
+	def painter(x, y, board):
+		print possibilities
 		selected = possibilities[random.randint(0,len(possibilities))]
 		size = selected['size']
 		position = board.convert_position_on_screen_to_position_on_board(x-board.tile_size*(size-1)/2, y-board.tile_size*(size-1)/2)
@@ -24,10 +25,30 @@ def makepainter(possibilities):
 					return
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
-				board.play_area[i][j] = {'surface': None, 'size': 0, 'ground': False}
-		board.play_area[x][y] = {'surface': pygame.image.load(selected['image']), 'size': size, 'ground': False}
-   return painter
+				board.play_area[i][j] = {'surface': None, 'size': 0, 'ground': False, 'parent': (x, y)}
+		board.play_area[x][y] = {'surface': pygame.image.load(selected['image']), 'size': size, 'ground': False, 'parent': (x, y)}
+	return painter
    
+def makeremover():
+	def remover(x, y, board):
+		size = 1
+		position = board.convert_position_on_screen_to_position_on_board(x-board.tile_size*(size-1)/2, y-board.tile_size*(size-1)/2)
+		x = position[0]
+		y = position[1]
+		try:
+			root = board.play_area[x][y]['parent']
+		except KeyError:
+			return
+		x = root[0]
+		y = root[1]
+		size = board.play_area[x][y]['size']
+		x_size = size
+		y_size = size
+		for i in range(x, x+x_size):
+			for j in range(y, y+y_size):
+				board.play_area[i][j] = board.get_ground_tile()
+	return remover
+
 class Cursor:
 	def __init__(self):
 		self.data = None
@@ -36,6 +57,8 @@ class Cursor:
 			self.data(x, y, board)
 
 class PlayArea:
+	def get_ground_tile(self):
+		return {'surface': pygame.image.load("ground.png"), 'size': 1, 'ground': True}
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
 		self.tiles = play_area_size #in tiles
 		self.tile_size = play_area_tile_size #in pixels
@@ -43,7 +66,7 @@ class PlayArea:
 		self.usable_area = usable_area
 		self.area_anchor = area_anchor
 		for i in range(0, play_area_size):
-			self.play_area.append([{'surface': pygame.image.load("ground.png"), 'size': 1, 'ground': True}] * self.tiles)
+			self.play_area.append([self.get_ground_tile()] * self.tiles)
 	def convert_position_on_screen_to_position_on_board(self, x, y):
 		#may return invalid tile! Check with is_valid_tile
 		x-=self.area_anchor[0]
@@ -121,11 +144,11 @@ class Menu:
 				count+=1
 		for elt in data.getiterator("special"):
 			for e in elt:
-				possibilities = []
-				for sprite in e:
-					possibilities.append({'image': sprite.attrib['image'], 'size': int(sprite.attrib['size'])})
-				self.menu.append(Button(function=makepainter(possibilities), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
-				count+=1
+				if e.tag == "delete":
+					self.menu.append(Button(function=makeremover(), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+					count+=1
+				else:
+					raise "Unhandled special button"
 	def press(self, x, y, cursor):
 		for thing in self.menu:
 			cursor = thing.press(x, y, cursor)

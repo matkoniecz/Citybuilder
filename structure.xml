@@ -22,8 +22,6 @@
 		</road>
 	</linear>
 	<special>
-		<delete image="delete.png">
-			<sprite image="road.png" size="1"/>
-		</delete>
+		<delete image="delete.png"/>
 	</special>
 </root>

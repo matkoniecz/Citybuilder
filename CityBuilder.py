@@ -57,7 +57,7 @@ class Cursor:
 
 class PlayArea:
 	def get_ground_tile(self):
-		return {'surface': pygame.image.load("micropolis/ground.png"), 'size': 1, 'ground': True}
+		return {'surface': pygame.image.load("micropolis/tiles/ground.png"), 'size': 1, 'ground': True}
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
 		self.tiles = play_area_size #in tiles
 		self.tile_size = play_area_tile_size #in pixels

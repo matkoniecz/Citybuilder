@@ -1,78 +1,78 @@
 <root>
 	<buildings>
-		<residential image="micropolis/house.png">
-			<sprite image="micropolis/res_houses1.png" size="1"/>
-			<sprite image="micropolis/res_houses2.png" size="1"/>
-			<sprite image="micropolis/res_houses3.png" size="1"/>
-			<sprite image="micropolis/res_houses4.png" size="1"/>
-			<sprite image="micropolis/res_houses5.png" size="1"/>
-			<sprite image="micropolis/res_houses6.png" size="1"/>
-			<sprite image="micropolis/res_houses7.png" size="1"/>
-			<sprite image="micropolis/res_houses8.png" size="1"/>
-			<sprite image="micropolis/res_houses9.png" size="1"/>
-			<sprite image="micropolis/res_houses10.png" size="1"/>
-			<sprite image="micropolis/res_houses12.png" size="1"/>
+		<residential image="micropolis/buttons/house.png">
+			<sprite image="micropolis/tiles/res_houses1.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses2.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses3.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses4.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses5.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses6.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses7.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses8.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses9.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses10.png" size="1"/>
+			<sprite image="micropolis/tiles/res_houses12.png" size="1"/>
 		</residential>
-		<residential image="micropolis/block_of_flats.png">
-			<sprite image="micropolis/res_zones2.png" size="3"/>
-			<sprite image="micropolis/res_zones3.png" size="3"/>
-			<sprite image="micropolis/res_zones4.png" size="3"/>
-			<sprite image="micropolis/res_zones5.png" size="3"/>
-			<sprite image="micropolis/res_zones6.png" size="3"/>
-			<sprite image="micropolis/res_zones7.png" size="3"/>
-			<sprite image="micropolis/res_zones8.png" size="3"/>
-			<sprite image="micropolis/res_zones9.png" size="3"/>
-			<sprite image="micropolis/res_zones10.png" size="3"/>
-			<sprite image="micropolis/res_zones12.png" size="3"/>
-			<sprite image="micropolis/res_zones13.png" size="3"/>
-			<sprite image="micropolis/res_zones14.png" size="3"/>
-			<sprite image="micropolis/res_zones15.png" size="3"/>
-			<sprite image="micropolis/res_zones16.png" size="3"/>
-			<sprite image="micropolis/res_zones17.png" size="3"/>
-			<sprite image="micropolis/res_zones18.png" size="3"/>
-			<sprite image="micropolis/res_zones19.png" size="3"/>
+		<residential image="micropolis/buttons/block_of_flats.png">
+			<sprite image="micropolis/tiles/res_zones2.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones3.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones4.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones5.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones6.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones7.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones8.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones9.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones10.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones12.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones13.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones14.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones15.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones16.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones17.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones18.png" size="3"/>
+			<sprite image="micropolis/tiles/res_zones19.png" size="3"/>
 		</residential>
-		<industrial image="micropolis/factory.png">
-			<sprite image="micropolis/ind_zones2.png" size="3"/>
-			<sprite image="micropolis/ind_zones3.png" size="3"/>
-			<sprite image="micropolis/ind_zones4.png" size="3"/>
-			<sprite image="micropolis/ind_zones5.png" size="3"/>
-			<sprite image="micropolis/ind_zones6.png" size="3"/>
-			<sprite image="micropolis/ind_zones7.png" size="3"/>
-			<sprite image="micropolis/ind_zones8.png" size="3"/>
-			<sprite image="micropolis/ind_zones9.png" size="3"/>
+		<industrial image="micropolis/buttons/factory.png">
+			<sprite image="micropolis/tiles/ind_zones2.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones3.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones4.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones5.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones6.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones7.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones8.png" size="3"/>
+			<sprite image="micropolis/tiles/ind_zones9.png" size="3"/>
 		</industrial>
-		<commercial image="micropolis/commercial.png">
-			<sprite image="micropolis/com_zones2.png" size="3"/>
-			<sprite image="micropolis/com_zones3.png" size="3"/>
-			<sprite image="micropolis/com_zones4.png" size="3"/>
-			<sprite image="micropolis/com_zones5.png" size="3"/>
-			<sprite image="micropolis/com_zones6.png" size="3"/>
-			<sprite image="micropolis/com_zones7.png" size="3"/>
-			<sprite image="micropolis/com_zones8.png" size="3"/>
-			<sprite image="micropolis/com_zones9.png" size="3"/>
-			<sprite image="micropolis/com_zones10.png" size="3"/>
-			<sprite image="micropolis/com_zones12.png" size="3"/>
-			<sprite image="micropolis/com_zones13.png" size="3"/>
-			<sprite image="micropolis/com_zones14.png" size="3"/>
-			<sprite image="micropolis/com_zones15.png" size="3"/>
-			<sprite image="micropolis/com_zones16.png" size="3"/>
-			<sprite image="micropolis/com_zones17.png" size="3"/>
-			<sprite image="micropolis/com_zones18.png" size="3"/>
-			<sprite image="micropolis/com_zones19.png" size="3"/>
-			<sprite image="micropolis/com_zones20.png" size="3"/>
-			<sprite image="micropolis/com_zones21.png" size="3"/>
+		<commercial image="micropolis/buttons/commercial.png">
+			<sprite image="micropolis/tiles/com_zones2.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones3.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones4.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones5.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones6.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones7.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones8.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones9.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones10.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones12.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones13.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones14.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones15.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones16.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones17.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones18.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones19.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones20.png" size="3"/>
+			<sprite image="micropolis/tiles/com_zones21.png" size="3"/>
 		</commercial>
-		<commercial image="micropolis/trees.png">
-			<sprite image="micropolis/park.png" size="1"/>
+		<commercial image="micropolis/buttons/trees.png">
+			<sprite image="micropolis/tiles/park.png" size="1"/>
 		</commercial>
 	</buildings>
 	<linear>
-		<road image="micropolis/road.png">
-			<sprite image="micropolis/road_tile.png" size="1"/>
+		<road image="micropolis/buttons/road.png">
+			<sprite image="micropolis/tiles/road_tile.png" size="1"/>
 		</road>
 	</linear>
 	<special>
-		<delete image="micropolis/delete.png"/>
+		<delete image="micropolis/buttons/delete.png"/>
 	</special>
 </root>

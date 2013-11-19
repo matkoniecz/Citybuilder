@@ -64,7 +64,7 @@
 			<sprite image="micropolis/com_zones21.png" size="3"/>
 		</commercial>
 		<commercial image="micropolis/trees.png">
-			<sprite image="micropolis/trees.png" size="1"/>
+			<sprite image="micropolis/park.png" size="1"/>
 		</commercial>
 	</buildings>
 	<linear>

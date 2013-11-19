@@ -65,6 +65,10 @@
 		</commercial>
 		<commercial image="micropolis/buttons/trees.png">
 			<sprite image="micropolis/tiles/park.png" size="1"/>
+			<sprite image="micropolis/tiles/terrain38.png" size="1"/>
+			<sprite image="micropolis/tiles/terrain41.png" size="1"/>
+			<sprite image="micropolis/tiles/terrain42.png" size="1"/>
+			<sprite image="micropolis/tiles/terrain43.png" size="1"/>
 		</commercial>
 	</buildings>
 	<linear>

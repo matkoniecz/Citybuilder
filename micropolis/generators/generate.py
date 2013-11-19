@@ -1,6 +1,6 @@
 import pygame, time
 
-to_process = ["res_zones.png", "com_zones.png", "ind_zones.png", "res_houses.png"]
+to_process = ["res_zones.png", "com_zones.png", "ind_zones.png", "res_houses.png", "terrain.png"]
 for name in to_process:
 	file = pygame.image.load(name)
 	offset = 0

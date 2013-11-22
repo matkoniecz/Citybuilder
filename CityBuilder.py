@@ -28,9 +28,11 @@ def makepainter(possibilities):
 		board.play_area[x][y] = {'surface': pygame.image.load(selected['image']), 'size': size, 'ground': False, 'parent': (x, y)}
 	return painter
    
-def makeremover():
+def makeremover(possibilities):
 	def remover(x, y, board):
-		size = 1
+		selected = possibilities[random.randint(0,len(possibilities))]
+		size = selected['size']
+		position = board.convert_position_on_screen_to_position_on_board(x-board.tile_size*(size-1)/2, y-board.tile_size*(size-1)/2)
 		position = board.convert_position_on_screen_to_position_on_board(x-board.tile_size*(size-1)/2, y-board.tile_size*(size-1)/2)
 		x = position[0]
 		y = position[1]
@@ -45,7 +47,7 @@ def makeremover():
 		y_size = size
 		for i in range(x, x+x_size):
 			for j in range(y, y+y_size):
-				board.play_area[i][j] = board.get_ground_tile()
+				board.play_area[i][j] = {'surface': pygame.image.load(selected['image']), 'size': size, 'ground': True, 'parent': (x, y)}
 	return remover
 
 class Cursor:
@@ -56,16 +58,35 @@ class Cursor:
 			self.data(x, y, board)
 
 class PlayArea:
-	def get_ground_tile(self):
-		return {'surface': pygame.image.load("micropolis/tiles/ground.png"), 'size': 1, 'ground': True}
+	def get_ground_tile(self, selected, x, y):
+		if selected['size'] != 1:
+			raise "unimplemented handling of large ground tiles!"
+		return {'surface': selected['surface'], 'size': selected['size'], 'ground': True, 'parent': (x, y)}
 	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
+		data = etree.parse('structure.xml')
+		for elt in data.getiterator("special"):
+			for e in elt:
+				ground_tile_possibilities = []
+				if e.tag == "delete":
+					for sprite in e:
+						ground_tile_possibilities.append({'image': sprite.attrib['image'], 'surface': pygame.image.load(sprite.attrib['image']), 'size': int(sprite.attrib['size'])})
+		if len(ground_tile_possibilities) == 0:
+			raise "ground tile must be included!"
+		if len(ground_tile_possibilities) != 1:
+			raise "unimplemented handling of multiple ground tiles!"
+		selected = ground_tile_possibilities[random.randint(0,len(ground_tile_possibilities))]
+		size = selected['size']
+
 		self.tiles = play_area_size #in tiles
 		self.tile_size = play_area_tile_size #in pixels
 		self.play_area = []
 		self.usable_area = usable_area
 		self.area_anchor = area_anchor
-		for i in range(0, play_area_size):
-			self.play_area.append([self.get_ground_tile()] * self.tiles)
+		for x in range(0, play_area_size):
+			column = []
+			for y in range(0, play_area_size):
+				column.append(self.get_ground_tile(selected, x, y))
+			self.play_area.append(column)
 	def convert_position_on_screen_to_position_on_board(self, x, y):
 		#may return invalid tile! Check with is_valid_tile
 		x-=self.area_anchor[0]
@@ -144,8 +165,11 @@ class Menu:
 				count+=1
 		for elt in data.getiterator("special"):
 			for e in elt:
+				possibilities = []
+				for sprite in e:
+					possibilities.append({'image': sprite.attrib['image'], 'size': int(sprite.attrib['size'])})
 				if e.tag == "delete":
-					self.menu.append(Button(function=makeremover(), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
+					self.menu.append(Button(function=makeremover(possibilities), image=e.attrib['image'], position=(location_x_start, location_y_start+button_height*count), size=(button_width, button_height)))
 					count+=1
 				else:
 					raise "Unhandled special button"

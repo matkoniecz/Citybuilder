@@ -77,6 +77,8 @@
 		</road>
 	</linear>
 	<special>
-		<delete image="micropolis/buttons/delete.png"/>
+		<delete image="micropolis/buttons/delete.png">
+			<sprite image="micropolis/tiles/ground.png" size="1"/>
+		</delete>
 	</special>
 </root>

@@ -162,15 +162,20 @@ class Menu:
 
 class Game:
 	def __init__(self):
-		default_settings = [[{
+		default_settings = [
+			{'section_name': 'display', 
+			'dictionary_of_settings': {
 			'screen_width': 900,
 			'screen_height': 710,
 			'button_width': 80,
 			'button_height': 80,
 			'play_area_tile_size': 25,
-			}, 'display'], [{
+			}}, 
+			{'section_name': 'play_area',
+			'dictionary_of_settings': {
 			'play_area_size': 100,
-			}, 'play_area']]
+			}},
+		]
 		settings = self.load_settings_from_file(default_settings)
 		size = settings['screen_width'], settings['screen_height']
 		self.screen_width = settings['screen_width']
@@ -203,12 +208,12 @@ class Game:
 		loaded_settings = {}
 		unified_defaults = {}
 		for set in default_settings:
-			unified_defaults.update(set[0])
+			unified_defaults.update(set['dictionary_of_settings'])
 		config = ConfigParser.SafeConfigParser()
 		config.read(self.get_settings_filename())
 		for set in default_settings:
-			section = set[1]
-			for name in set[0]:
+			section = set['section_name']
+			for name in set['dictionary_of_settings']:
 				try:
 					loaded_settings[name] = config.getint(section, name)
 				except ConfigParser.NoSectionError, ConfigParser.NoOptionError:

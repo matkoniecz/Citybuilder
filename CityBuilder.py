@@ -62,8 +62,8 @@ class PlayArea:
 		if selected['size'] != 1:
 			raise "unimplemented handling of large ground tiles!"
 		return {'surface': selected['surface'], 'size': selected['size'], 'ground': True, 'parent': (x, y)}
-	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor):
-		data = etree.parse('structure.xml')
+	def __init__(self, play_area_size, play_area_tile_size, usable_area, area_anchor, xml_file_with_definitions):
+		data = etree.parse(xml_file_with_definitions)
 		for elt in data.getiterator("special"):
 			for e in elt:
 				ground_tile_possibilities = []
@@ -145,10 +145,10 @@ class Button:
 		screen.blit(pygame.transform.scale(self.surface, self.size), pygame.Rect(self.position, dummy))
 		return screen
 class Menu:
-	def __init__(self, button_width, button_height, location_x_start, location_y_start):
+	def __init__(self, button_width, button_height, location_x_start, location_y_start, xml_file_with_definitions):
 		self.menu = []
 		count = 0
-		data = etree.parse('structure.xml')
+		data = etree.parse(xml_file_with_definitions)
 		for elt in data.getiterator("buildings"):
 			for e in elt:
 				possibilities = []
@@ -199,6 +199,10 @@ class Game:
 			'dictionary_of_settings': {
 			'play_area_size': 100,
 			}},
+			{'section_name': 'data',
+			'dictionary_of_settings': {
+			'xml_file_with_data': 'structure.xml',
+			}},
 		]
 		settings = self.load_settings_from_file(default_settings)
 		size = settings['screen_width'], settings['screen_height']
@@ -206,9 +210,11 @@ class Game:
 		self.screen_height = settings['screen_height']
 		self.button_width = settings['button_width']
 		self.button_height = settings['button_height']
+		self.xml_file_with_data = settings['xml_file_with_data']
+		print settings['xml_file_with_data']
 		self.screen = pygame.display.set_mode(size)
-		self.board = PlayArea(play_area_size = settings['play_area_size'], play_area_tile_size = settings['play_area_tile_size'], usable_area = (settings['screen_width'], self.screen_height), area_anchor = (0, 0))
-		self.menu = Menu(settings['button_width'], self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0)
+		self.board = PlayArea(play_area_size = settings['play_area_size'], play_area_tile_size = settings['play_area_tile_size'], usable_area = (settings['screen_width'], self.screen_height), area_anchor = (0, 0), xml_file_with_definitions=self.xml_file_with_data)
+		self.menu = Menu(settings['button_width'], self.button_height, location_x_start=settings['screen_width']-self.button_width, location_y_start=0, xml_file_with_definitions=self.xml_file_with_data)
 		self.cursor = Cursor()
 	def press(self, event):
 		# Set the x, y positions of the mouse click
@@ -239,7 +245,12 @@ class Game:
 			section = set['section_name']
 			for name in set['dictionary_of_settings']:
 				try:
-					loaded_settings[name] = config.getint(section, name)
+					if isinstance(unified_defaults[name], (int, long)):
+						loaded_settings[name] = config.getint(section, name)
+					elif isinstance(unified_defaults[name], (str)):
+						loaded_settings[name] = config.get(section, name)
+					else:
+						raise "That should be impossible!"
 				except ConfigParser.NoSectionError, ConfigParser.NoOptionError:
 					loaded_settings[name] = unified_defaults[name]
 		return loaded_settings
@@ -260,6 +271,8 @@ class Game:
 		config.set('display', 'play_area_tile_size', str(self.board.tile_size))
 		config.add_section('play_area')
 		config.set('play_area', 'play_area_size', str(self.board.tiles))
+		config.add_section('data')
+		config.set('data', 'xml_file_with_data', str(self.xml_file_with_data))
 		# Writing our configuration file
 		with open(self.get_settings_filename(), 'wb') as configfile:
 			config.write(configfile)	
